@@ -1,4 +1,4 @@
-package com.niverhawk.plugin.clustering.clustering;
+package com.niverhawk.plugin.clustering;
 
 import org.pitest.mutationtest.build.InterceptorParameters;
 import org.pitest.mutationtest.build.MutationInterceptor;
@@ -10,7 +10,7 @@ public class MutantClusteringFactory implements MutationInterceptorFactory {
 
     @Override
     public MutationInterceptor createInterceptor(InterceptorParameters params) {
-        return new MutantClusteringInterceptor();
+        return new MutantClusteringInterceptor(params.source());
     }
 
     @Override
