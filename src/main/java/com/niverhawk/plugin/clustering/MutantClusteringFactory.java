@@ -1,4 +1,4 @@
-package org.pitest.plugin.clustering.clustering;
+package com.niverhawk.plugin.clustering.clustering;
 
 import org.pitest.mutationtest.build.InterceptorParameters;
 import org.pitest.mutationtest.build.MutationInterceptor;

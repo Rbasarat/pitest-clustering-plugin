@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.pitest</groupId>
+    <groupId>com.niverhawk</groupId>
     <artifactId>pitest-clustering-plugin</artifactId>
     <version>1.0-SNAPSHOT</version>
 
@@ -13,8 +13,9 @@
     <description>Mutant clustering plugin for pitest</description>
 
     <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <pitest.version>1.6.4</pitest.version>
     </properties>
 
     <developers>
@@ -31,5 +32,20 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest-entry</artifactId>
+            <version>${pitest.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-text</artifactId>
+            <version>1.9</version>
+        </dependency>
+    </dependencies>
+
 
 </project>
