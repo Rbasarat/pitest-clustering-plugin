@@ -7,7 +7,6 @@ import org.pitest.plugin.Feature;
 
 public class MutantClusteringFactory implements MutationInterceptorFactory {
 
-
     @Override
     public MutationInterceptor createInterceptor(InterceptorParameters params) {
         return new MutantClusteringInterceptor(params.source());
