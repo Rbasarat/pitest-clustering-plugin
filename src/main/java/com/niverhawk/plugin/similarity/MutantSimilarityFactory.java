@@ -5,15 +5,26 @@ import org.pitest.mutationtest.build.MutationInterceptor;
 import org.pitest.mutationtest.build.MutationInterceptorFactory;
 import org.pitest.plugin.Feature;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class MutantSimilarityFactory implements MutationInterceptorFactory {
     @Override
     public MutationInterceptor createInterceptor(InterceptorParameters params) {
-        System.out.println("only one time please.");
+        FileSystem fileSystem = FileSystems.getDefault();
+        String outFile = null;
         try {
-            FileWriter csvWriter = new FileWriter("distance.csv", false);
+            final String outDir = params.data().getReportDir();
+            final Path classDir = fileSystem.getPath(outDir);
+            Path clusterDir = classDir.resolve("clustering");
+            Files.createDirectories(clusterDir);
+            outFile = clusterDir.resolve("distance.csv").toAbsolutePath().toString();
+            FileWriter csvWriter = new FileWriter(outFile, false);
             csvWriter.append("id");
             csvWriter.append(",");
             csvWriter.append("distance");
@@ -25,7 +36,7 @@ public class MutantSimilarityFactory implements MutationInterceptorFactory {
         }
 
 
-        return new MutantSimilarityInterceptor();
+        return new MutantSimilarityInterceptor(outFile);
     }
 
     @Override

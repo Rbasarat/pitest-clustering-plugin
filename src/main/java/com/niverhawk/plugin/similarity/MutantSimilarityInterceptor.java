@@ -15,9 +15,6 @@ import java.io.CharArrayWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -25,11 +22,11 @@ import java.util.List;
 public class MutantSimilarityInterceptor implements MutationInterceptor {
 
     private String OriginalClassBytesAsString;
-    long TotalTime = 0;
     FileWriter csvWriter;
+    private final String outFilePath;
 
-    public MutantSimilarityInterceptor() {
-
+    public MutantSimilarityInterceptor(String outFilePath) {
+        this.outFilePath = outFilePath;
     }
 
     @Override
@@ -41,7 +38,11 @@ public class MutantSimilarityInterceptor implements MutationInterceptor {
     public void begin(ClassTree clazz) {
         this.OriginalClassBytesAsString = clazz.toString();
         try {
-            csvWriter = new FileWriter("distance2.csv", true);
+            if (outFilePath != null) {
+                csvWriter = new FileWriter(this.outFilePath, true);
+            } else {
+                System.err.println("Could not read/create CSV file");
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -143,13 +144,12 @@ public class MutantSimilarityInterceptor implements MutationInterceptor {
 
     private String buildCsvRecord(int distance, MutationDetails mutant) {
         StringBuilder sb = new StringBuilder();
-        sb.append(mutant.getId().toString().replaceAll(",",""));
+        sb.append(mutant.getId().toString().replaceAll(",", ""));
         sb.append(",");
         sb.append(distance);
         sb.append("\n");
         return sb.toString();
     }
-
 
 
 }
