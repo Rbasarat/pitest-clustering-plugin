@@ -131,7 +131,7 @@ public class MutantSimilarityInterceptor implements MutationInterceptor {
     }
 
     private String sanitizeByteCode(String originalMethod, String mutator) {
-        if (mutator.contains("org.pitest.mutationtest.engine.gregor.mutators.experimental.RemoveSwitchMutator"))
+        if (mutator.contains("org.pitest.mutationtest.engine.gregor.mutators.experimental.RemoveSwitchMutator") || mutator.contains("org.pitest.mutationtest.engine.gregor.mutators.rv.CRCR4Mutator"))
             return originalMethod;
         String[] orignalLines = originalMethod.split("\n");
         ArrayList<String> sanitizedLines = new ArrayList<>();
