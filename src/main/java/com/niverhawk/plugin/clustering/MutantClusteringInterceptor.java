@@ -29,6 +29,9 @@ public class MutantClusteringInterceptor implements MutationInterceptor {
 
     @Override
     public void begin(ClassTree clazz) {
+        if (this.mutants.isEmpty()) {
+            System.err.println("Error parsing mutants");
+        }
     }
 
     @Override
@@ -39,13 +42,9 @@ public class MutantClusteringInterceptor implements MutationInterceptor {
             final MutationDetails md = indexable.get(i);
             String details = md.getId().toString().replaceAll(",", "");
             if (!this.mutants.contains(details)) {
-                mutants.remove(md);
-            }else{
-                System.out.println("found one");
+                mutations.remove(md);
             }
         }
-
-
         return mutations;
     }
 

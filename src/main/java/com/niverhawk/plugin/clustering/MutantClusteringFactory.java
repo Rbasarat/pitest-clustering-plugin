@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.Scanner;
@@ -43,17 +42,19 @@ public class MutantClusteringFactory implements MutationInterceptorFactory {
     }
 
     private Set<String> parseClusteredMutants(String filePath) {
+
+        Set<String> result = new HashSet<>();
         try {
-            Set<String> result = new HashSet<>();
             Scanner scanner = new Scanner(new File(filePath));
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 String[] id = line.split(",");
                 result.add(id[0]);
             }
-            return result;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+
+        return result;
     }
 }
