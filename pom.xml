@@ -12,6 +12,14 @@
     <url>http://pitest.org</url>
     <description>Mutant clustering plugin for pitest</description>
 
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Rbasarat Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/rbasarat/pitest-clustering-plugin</url>
+        </repository>
+    </distributionManagement>
+
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
