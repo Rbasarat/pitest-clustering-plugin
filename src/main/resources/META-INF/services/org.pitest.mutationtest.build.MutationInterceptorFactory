@@ -1,1 +1,2 @@
 com.niverhawk.plugin.clustering.MutantClusteringFactory
+com.niverhawk.plugin.similarity.MutantSimilarityFactory
