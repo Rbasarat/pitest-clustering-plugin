@@ -1,38 +1,35 @@
 package com.niverhawk.plugin.clustering;
 
+import com.niverhawk.plugin.PluginService;
 import org.pitest.mutationtest.build.InterceptorParameters;
 import org.pitest.mutationtest.build.MutationInterceptor;
 import org.pitest.mutationtest.build.MutationInterceptorFactory;
 import org.pitest.plugin.Feature;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.HashMap;
 
 public class MutantClusteringFactory implements MutationInterceptorFactory {
 
     @Override
     public MutationInterceptor createInterceptor(InterceptorParameters params) {
-
+        PluginService service = new PluginService();
         FileSystem fileSystem = FileSystems.getDefault();
         final String outDir = params.data().getReportDir();
         final Path classDir = fileSystem.getPath(outDir);
         Path clusterDir = classDir.resolve("clustering");
         String file = clusterDir.resolve("cluster.csv").toAbsolutePath().toString();
-        Set<String> mutants = parseClusteredMutants(file);
+        HashMap<String, Integer> mutants = service.parseClusteredMutants(file);
 
-        return new MutantClusteringInterceptor(mutants);
+        return new MutantClusteringInterceptor(mutants, service);
     }
 
     @Override
     public Feature provides() {
         return Feature.named("CLUSTER")
-                .withDescription("Cluster mutants by levenshtein distance")
+                .withDescription("Executes mutants that are provided in list.")
                 .withOnByDefault(false);
     }
 
@@ -41,20 +38,5 @@ public class MutantClusteringFactory implements MutationInterceptorFactory {
         return "Mutant clustering plugin";
     }
 
-    private Set<String> parseClusteredMutants(String filePath) {
 
-        Set<String> result = new HashSet<>();
-        try {
-            Scanner scanner = new Scanner(new File(filePath));
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                String[] id = line.split(",");
-                result.add(id[0]);
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        return result;
-    }
 }

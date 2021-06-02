@@ -31,7 +31,7 @@ public class MutantSimilarityInterceptor implements MutationInterceptor {
 
     @Override
     public InterceptorType type() {
-        return InterceptorType.OTHER;
+        return InterceptorType.REPORT ;
     }
 
     @Override
@@ -60,10 +60,19 @@ public class MutantSimilarityInterceptor implements MutationInterceptor {
                 long startTime = System.currentTimeMillis();
                 final String methodName = getMethodNameInByteCode(md);
 
+                // Werid edgecase which affects bytecode
+                if (md.getMutator().contains("org.pitest.mutationtest.engine.gregor.mutators.rv.CRCR4Mutator") ||
+                        md.getMutator().contains("org.pitest.mutationtest.engine.gregor.mutators.experimental.RemoveSwitchMutator")) {
+                    String originalMethod = sanitizeByteCode(this.OriginalClassBytesAsString, md.getMutator());
+                    String mutantMethod = getByteCodeAsString(mutant.getBytes());
+                    int distance = calculateLevenshteinDistance(originalMethod, mutantMethod);
+                    csvWriter.append(buildCsvRecord(distance, md));
+                    csvWriter.flush();
+                    continue;
+                }
+
                 // Remove frame stuff from original class.
-
                 String originalMethod = sanitizeByteCode(getMethodInByteCode(this.OriginalClassBytesAsString, methodName), md.getMutator());
-
                 String mutantMethod = getMethodInByteCode(getByteCodeAsString(mutant.getBytes()), methodName);
 
                 if (originalMethod.equals("") || mutantMethod.equals("")) {
@@ -131,8 +140,6 @@ public class MutantSimilarityInterceptor implements MutationInterceptor {
     }
 
     private String sanitizeByteCode(String originalMethod, String mutator) {
-        if (mutator.contains("org.pitest.mutationtest.engine.gregor.mutators.experimental.RemoveSwitchMutator") || mutator.contains("org.pitest.mutationtest.engine.gregor.mutators.rv.CRCR4Mutator"))
-            return originalMethod;
         String[] orignalLines = originalMethod.split("\n");
         ArrayList<String> sanitizedLines = new ArrayList<>();
         for (String orignalLine : orignalLines) {

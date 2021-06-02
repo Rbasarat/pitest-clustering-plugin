@@ -5,7 +5,6 @@ import org.pitest.mutationtest.build.MutationInterceptor;
 import org.pitest.mutationtest.build.MutationInterceptorFactory;
 import org.pitest.plugin.Feature;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.FileSystem;
@@ -16,6 +15,7 @@ import java.nio.file.Path;
 public class MutantSimilarityFactory implements MutationInterceptorFactory {
     @Override
     public MutationInterceptor createInterceptor(InterceptorParameters params) {
+
         FileSystem fileSystem = FileSystems.getDefault();
         String outFile = null;
         try {
