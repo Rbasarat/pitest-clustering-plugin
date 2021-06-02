@@ -5,7 +5,7 @@ import org.pitest.mutationtest.engine.MutationDetails;
 public class Feature {
 
     public String id;
-    public final String mutOperator;
+    public String mutOperator;
     public int opcode;
     public int lineNumber;
     public int blockNumber;
@@ -27,8 +27,6 @@ public class Feature {
         this.id = details.getId().toString().replaceAll(",", "");
         this.mutOperator = mutOperator;
         this.opcode = opcode;
-        this.lineNumber = details.getLineNumber();
-        this.blockNumber = details.getBlock();
         this.metInstrIdx = details.getFirstIndex();
         this.numTests = details.getTestsInOrder().size();
         this.returnType = returnType;
@@ -37,6 +35,8 @@ public class Feature {
         this.isInFinalBlock = details.isInFinallyBlock();
         this.className = details.getClassName().asJavaName();
         this.methodName = details.getMethod().name();
+        this.blockNumber = details.getBlock();
+        this.lineNumber = details.getClassLine().getLineNumber();
 
     }
 

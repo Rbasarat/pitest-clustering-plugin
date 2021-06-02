@@ -91,8 +91,9 @@ public class MutantCharacteristicInterceptor implements MutationInterceptor {
 
     private String buildCsvRecord(Feature feature) {
 
-        return String.format("%s,%d,%d,%s,%d,%d,%d,%s,%s,%d,%d\n",
+        return String.format("%s,%s,%d,%d,%s,%d,%d,%d,%s,%s,%d,%d\n",
                 feature.id,
+                feature.mutOperator,
                 feature.numTests,
                 feature.opcode,
                 feature.returnType,
