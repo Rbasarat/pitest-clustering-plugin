@@ -26,9 +26,9 @@ public class MutantKilledReportFactory implements MutationResultListenerFactory 
             final Path classDir = fileSystem.getPath(outDir);
             Path clusterDir = classDir.resolve("clustering");
             Files.createDirectories(clusterDir);
-            outFile = clusterDir.resolve("killed.txt").toAbsolutePath().toString();
+            outFile = clusterDir.resolve("killed.csv").toAbsolutePath().toString();
             FileWriter csvWriter = new FileWriter(outFile, false);
-            csvWriter.append("id,killed\n");
+            csvWriter.append("id,killed,numTests\n");
             csvWriter.flush();
             csvWriter.close();
         } catch (IOException e) {

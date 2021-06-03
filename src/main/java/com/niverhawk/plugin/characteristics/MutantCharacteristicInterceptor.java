@@ -62,7 +62,7 @@ public class MutantCharacteristicInterceptor implements MutationInterceptor {
                             int i = signature.lastIndexOf(")") + 1;
                             returnType = (signature.substring(i, i + 1));
                         }
-
+                        localVars = methodTree.rawNode().localVariables.size();
                         opcode = instruction.getOpcode();
                         tryCatchBlocks = methodTree.rawNode().tryCatchBlocks.size();
                     }
@@ -91,10 +91,9 @@ public class MutantCharacteristicInterceptor implements MutationInterceptor {
 
     private String buildCsvRecord(Feature feature) {
 
-        return String.format("%s,%s,%d,%d,%s,%d,%d,%d,%s,%s,%d,%d\n",
+        return String.format("%s,%s,%d,%s,%d,%d,%d,%s,%s,%d,%d\n",
                 feature.id,
                 feature.mutOperator,
-                feature.numTests,
                 feature.opcode,
                 feature.returnType,
                 feature.localVarsCount,

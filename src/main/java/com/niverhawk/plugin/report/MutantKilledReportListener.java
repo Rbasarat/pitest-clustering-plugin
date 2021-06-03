@@ -31,9 +31,10 @@ public class MutantKilledReportListener implements MutationResultListener {
                 if (this.outputFile != null) {
                     FileWriter writer = new FileWriter(this.outputFile, true);
                     String id = pluginService.getMutantIdAsString(mutantResult.getDetails());
-                    String record = String.format("%s,%d\n",
+                    String record = String.format("%s,%d,%d\n",
                             id,
-                            mutantResult.getStatus().isDetected() ? 0: 1);
+                            mutantResult.getStatus().isDetected() ? 0: 1,
+                            mutantResult.getDetails().getTestsInOrder().size());
                     writer.append(record);
                     writer.flush();
                     writer.close();
